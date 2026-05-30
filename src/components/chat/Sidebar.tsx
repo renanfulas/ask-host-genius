@@ -72,17 +72,22 @@ export function AppSidebar({ onNewChat }: { onNewChat: () => void }) {
                       isActive={isActive}
                       className="data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-foreground"
                     >
-                      <Link
-                        to={item.url}
-                        aria-disabled={!item.enabled}
-                        onClick={(e) => {
-                          if (!item.enabled) e.preventDefault();
-                        }}
-                        className={!item.enabled ? "opacity-55 cursor-not-allowed" : ""}
-                      >
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </Link>
+                      {item.enabled ? (
+                        <Link to="/">
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.title}</span>
+                        </Link>
+                      ) : (
+                        <a
+                          href="#"
+                          aria-disabled="true"
+                          onClick={(e) => e.preventDefault()}
+                          className="opacity-55 cursor-not-allowed"
+                        >
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.title}</span>
+                        </a>
+                      )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
