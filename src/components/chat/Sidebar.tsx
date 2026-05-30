@@ -1,4 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _link = Link;
 import {
   MessageSquare,
   History,
