@@ -1,12 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import {
-  MessageSquare,
-  History,
-  LifeBuoy,
-  Settings,
-  Plus,
-  Sparkles,
-} from "lucide-react";
+import { History, LifeBuoy, MessageSquare, Plus, Settings, Sparkles } from "lucide-react";
 
 import {
   Sidebar,
@@ -42,17 +35,26 @@ export function AppSidebar({ onNewChat }: { onNewChat: () => void }) {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-      <SidebarHeader className="gap-3 px-3 pt-4">
-        <div className="flex items-center gap-2 px-1">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/15 text-primary">
-            <Sparkles className="h-3.5 w-3.5" />
+      <SidebarHeader className="gap-4 px-3 pt-4">
+        <div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/30 p-3">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/15 text-primary">
+              <Sparkles className="h-4 w-4" />
+            </div>
+            <div className="min-w-0">
+              <span className="block truncate font-serif text-lg leading-none">
+                supportFAQagent
+              </span>
+              <span className="mt-1 block text-[11px] text-muted-foreground">
+                VPS, WhatsApp, n8n e Evolution
+              </span>
+            </div>
           </div>
-          <span className="font-serif text-lg leading-none">supportFAQagent</span>
         </div>
 
         <button
           onClick={onNewChat}
-          className="group flex w-full items-center gap-2 rounded-lg border border-sidebar-border bg-sidebar-accent/40 px-3 py-2 text-sm text-sidebar-foreground transition hover:bg-sidebar-accent hover:border-primary/40"
+          className="group flex w-full items-center gap-2 rounded-xl border border-sidebar-border bg-sidebar-accent/45 px-3 py-2 text-sm text-sidebar-foreground transition hover:border-primary/40 hover:bg-sidebar-accent"
         >
           <Plus className="h-4 w-4 text-primary" />
           <span>Novo chat</span>
@@ -82,7 +84,7 @@ export function AppSidebar({ onNewChat }: { onNewChat: () => void }) {
                           href="#"
                           aria-disabled="true"
                           onClick={(e) => e.preventDefault()}
-                          className="opacity-55 cursor-not-allowed"
+                          className="cursor-not-allowed opacity-55"
                         >
                           <item.icon className="h-4 w-4" />
                           <span>{item.title}</span>
@@ -104,7 +106,7 @@ export function AppSidebar({ onNewChat }: { onNewChat: () => void }) {
             <SidebarMenu>
               {RECENTS.map((r) => (
                 <SidebarMenuItem key={r}>
-                  <SidebarMenuButton className="text-sidebar-foreground/75 hover:text-sidebar-foreground">
+                  <SidebarMenuButton className="text-sidebar-foreground/75 hover:bg-sidebar-accent/70 hover:text-sidebar-foreground">
                     <span className="truncate">{r}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -115,9 +117,12 @@ export function AppSidebar({ onNewChat }: { onNewChat: () => void }) {
       </SidebarContent>
 
       <SidebarFooter className="px-4 py-3">
-        <div className="flex items-center gap-2 text-[11px] text-muted-foreground/70">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary/70" />
-          <span className="uppercase tracking-wider">Staging V0</span>
+        <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/25 px-3 py-2">
+          <div className="flex items-center gap-2 text-[11px] text-muted-foreground/80">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary/80" />
+            <span className="uppercase tracking-wider">Staging V0</span>
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground/60">WhatsApp auth entra no V1.</p>
         </div>
       </SidebarFooter>
     </Sidebar>

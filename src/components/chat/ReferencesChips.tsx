@@ -1,3 +1,8 @@
+function displayRef(ref: string) {
+  const normalized = ref.replaceAll("\\", "/");
+  return normalized.split("/").filter(Boolean).pop() ?? ref;
+}
+
 export function ReferencesChips({ refs }: { refs: string[] }) {
   if (!refs.length) return null;
   return (
@@ -6,9 +11,10 @@ export function ReferencesChips({ refs }: { refs: string[] }) {
       {refs.map((r) => (
         <span
           key={r}
-          className="inline-flex items-center rounded-md border border-border bg-accent/40 px-2 py-0.5 font-mono text-[11px] text-foreground/80"
+          title={r}
+          className="inline-flex items-center rounded-full border border-border bg-accent/35 px-2.5 py-1 font-mono text-[11px] text-foreground/80"
         >
-          {r}
+          {displayRef(r)}
         </span>
       ))}
     </div>
