@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Plus } from "lucide-react";
 
 type Props = {
   onSend: (text: string) => void;
@@ -17,7 +17,6 @@ export function Composer({ onSend, disabled, value, onValueChange }: Props) {
   };
   const ref = useRef<HTMLTextAreaElement>(null);
 
-  // auto-grow
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -41,7 +40,8 @@ export function Composer({ onSend, disabled, value, onValueChange }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4">
-      <div className="group relative rounded-2xl border border-border bg-card/60 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] transition focus-within:border-primary/50 focus-within:bg-card">
+      <div className="group relative overflow-hidden rounded-[1.35rem] border border-border bg-card/70 shadow-[0_24px_80px_-45px_rgba(0,0,0,0.95)] transition focus-within:border-primary/55 focus-within:bg-card">
+        <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
         <textarea
           ref={ref}
           value={text}
@@ -50,12 +50,22 @@ export function Composer({ onSend, disabled, value, onValueChange }: Props) {
           rows={1}
           disabled={disabled}
           placeholder="Explique sua dúvida sobre VPS, WhatsApp, Evolution API ou n8n..."
-          className="block w-full resize-none bg-transparent px-5 pb-14 pt-4 text-[15px] leading-relaxed text-foreground placeholder:text-muted-foreground/70 focus:outline-none disabled:opacity-60"
+          className="block w-full resize-none bg-transparent px-5 pb-16 pt-4 text-[15px] leading-relaxed text-foreground placeholder:text-muted-foreground/70 focus:outline-none disabled:opacity-60"
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between px-4 pb-3">
-          <span className="text-[11px] text-muted-foreground/60">
-            Enter envia · Shift+Enter quebra linha
-          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              disabled
+              aria-label="Anexos indisponíveis na V0"
+              className="pointer-events-auto flex h-8 w-8 cursor-not-allowed items-center justify-center rounded-lg border border-border bg-background/35 text-muted-foreground/50"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+            <span className="text-[11px] text-muted-foreground/60">
+              Enter envia / Shift+Enter quebra linha
+            </span>
+          </div>
           <button
             type="button"
             onClick={submit}
@@ -68,7 +78,7 @@ export function Composer({ onSend, disabled, value, onValueChange }: Props) {
         </div>
       </div>
       <p className="mt-2 text-center text-[11px] text-muted-foreground/60">
-        Respostas geradas com base controlada. Sempre valide antes de aplicar em produção.
+        Respostas com base controlada. Valide antes de aplicar em produção.
       </p>
     </div>
   );

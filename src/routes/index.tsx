@@ -11,7 +11,7 @@ import { useChat } from "@/hooks/useChat";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "supportFAQagent — Suporte técnico HostGator" },
+      { title: "supportFAQagent - Suporte técnico HostGator" },
       {
         name: "description",
         content:
@@ -38,10 +38,13 @@ function ChatPage() {
         <AppSidebar onNewChat={reset} />
 
         <div className="flex min-h-screen flex-1 flex-col">
-          <header className="flex h-12 items-center gap-2 border-b border-border/60 px-3">
-            <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-            <span className="font-serif text-sm text-muted-foreground">
-              Chat de suporte
+          <header className="flex h-12 items-center justify-between border-b border-border/60 bg-background/80 px-3 backdrop-blur">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
+              <span className="font-serif text-sm text-muted-foreground">Chat de suporte</span>
+            </div>
+            <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
+              Staging V0
             </span>
           </header>
 
@@ -49,30 +52,16 @@ function ChatPage() {
             <main className="flex flex-1 flex-col">
               <EmptyState onPick={handlePick} />
               <div className="pb-8">
-                <Composer
-                  onSend={send}
-                  disabled={loading}
-                  value={draft}
-                  onValueChange={setDraft}
-                />
+                <Composer onSend={send} disabled={loading} value={draft} onValueChange={setDraft} />
               </div>
             </main>
           ) : (
             <main className="flex flex-1 flex-col">
               <div className="flex-1 overflow-y-auto">
-                <MessageList
-                  messages={messages}
-                  loading={loading}
-                  onFeedback={updateFeedback}
-                />
+                <MessageList messages={messages} loading={loading} onFeedback={updateFeedback} />
               </div>
               <div className="border-t border-border/40 bg-background/80 py-4 backdrop-blur">
-                <Composer
-                  onSend={send}
-                  disabled={loading}
-                  value={draft}
-                  onValueChange={setDraft}
-                />
+                <Composer onSend={send} disabled={loading} value={draft} onValueChange={setDraft} />
               </div>
             </main>
           )}

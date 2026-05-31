@@ -85,7 +85,10 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background:
+      radial-gradient(circle at 50% -10%, oklch(0.33 0.07 48 / 22%), transparent 34rem),
+      radial-gradient(circle at 0% 20%, oklch(0.25 0.05 170 / 12%), transparent 28rem),
+      var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";

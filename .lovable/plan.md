@@ -12,7 +12,7 @@ Tema dark "warm charcoal" com acento cobre/laranja discreto:
 - `--sidebar`: oklch(0.13 0.01 60), bordas em oklch(1 0 0 / 6%)
 - `--primary` (acento cobre): oklch(0.68 0.13 45)
 - `--accent-soft` para chips de referência
-- Tipografia: heading "Instrument Serif" (greeting) + body "Inter" (UI/chat) via Google Fonts no `<head>` do __root.
+- Tipografia: heading "Instrument Serif" (greeting) + body "Inter" (UI/chat) via Google Fonts no `<head>` do \_\_root.
 - Raio: 14–18px nos cards/composer. Sombras leves. Espaçamento generoso.
 - App força `class="dark"` no `<html>` (sem toggle).
 
@@ -41,11 +41,19 @@ Estado em memória (sem persistência) gerenciado por `useChat`:
 
 ```ts
 type Msg =
-  | { role: 'user'; id: string; text: string }
-  | { role: 'agent'; id: string; requestId: string; answer: string;
-      escalated: boolean; handoffReasons: string[]; references: string[];
-      supportCode: string; errorCode: string | null;
-      feedback?: { status: 'idle'|'sending'|'sent'|'error'; helpful?: boolean } };
+  | { role: "user"; id: string; text: string }
+  | {
+      role: "agent";
+      id: string;
+      requestId: string;
+      answer: string;
+      escalated: boolean;
+      handoffReasons: string[];
+      references: string[];
+      supportCode: string;
+      errorCode: string | null;
+      feedback?: { status: "idle" | "sending" | "sent" | "error"; helpful?: boolean };
+    };
 ```
 
 - `send(text)`: push user msg → estado `loading` ("Analisando contexto técnico...") → `POST /web/chat` → push agent msg. Em erro de rede mostra bolha de erro amigável ("Não consegui responder agora..."). Em 429 mostra mensagem específica de rate-limit. Em `error_code` no payload mostra mensagem amigável sem stack.
@@ -55,6 +63,7 @@ type Msg =
 ## Renderização da resposta do agente
 
 Cada bolha do agente mostra, na ordem:
+
 1. Texto da resposta (markdown via `react-markdown` se instalado; senão whitespace-pre-wrap).
 2. Se `escalated=true`: `EscalationCard` (texto da copy de escalonamento + lista discreta de `handoff_reasons`).
 3. Se `references.length`: `ReferencesChips` com label "Base usada:" + chips pequenos.
@@ -64,7 +73,7 @@ Cada bolha do agente mostra, na ordem:
 ## API client (src/lib/chat-api.ts)
 
 ```ts
-const BASE = import.meta.env.VITE_API_BASE_URL ?? '';
+const BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 // fetch com credentials: 'include' para cookie HttpOnly
 // nunca envia X-API-Key, X-LLM-API-Key, domain, session_id
 // trata 429 separadamente
@@ -83,7 +92,7 @@ Vazio, user msg, agent msg, loading, erro de rede, 429, escalado, feedback envia
 - Botões com `aria-label`. Foco visível com ring cobre.
 - Largura da conversa máx ~760px centralizada; composer com mesma largura.
 
-## SEO / __root
+## SEO / \_\_root
 
 - `__root.tsx`: adicionar `<link>` Google Fonts (Instrument Serif + Inter) e classe `dark` no `<html>`.
 - `index.tsx`: head com title "supportFAQagent — Suporte técnico HostGator" e meta description curta.

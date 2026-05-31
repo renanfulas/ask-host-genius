@@ -1,6 +1,6 @@
 // Cliente HTTP para o backend do supportFAQagent.
 // Regras: sem API key no browser, sem domain/session_id no body,
-// cookie HttpOnly cuida da sessão (credentials: 'include').
+// cookie HttpOnly cuida da sessão (credentials: "include").
 
 const BASE = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
 
@@ -22,7 +22,10 @@ export type FeedbackResponse = {
 };
 
 export class ChatApiError extends Error {
-  constructor(public kind: "network" | "rate_limit" | "server", message: string) {
+  constructor(
+    public kind: "network" | "rate_limit" | "server",
+    message: string,
+  ) {
     super(message);
   }
 }
