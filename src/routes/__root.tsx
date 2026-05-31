@@ -78,7 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "supportFAQagent — Suporte técnico HostGator" },
-      { name: "description", content: "Agente de suporte técnico para VPS, WhatsApp, Evolution API e n8n." },
+      {
+        name: "description",
+        content: "Agente de suporte técnico para VPS, WhatsApp, Evolution API e n8n.",
+      },
       { name: "theme-color", content: "#1a1714" },
     ],
     links: [
