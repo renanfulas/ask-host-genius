@@ -6,6 +6,8 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+const backendProxyTarget = process.env.VITE_BACKEND_PROXY_TARGET ?? "http://127.0.0.1:8765";
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
@@ -16,7 +18,7 @@ export default defineConfig({
     server: {
       proxy: {
         "/web": {
-          target: "http://127.0.0.1:8765",
+          target: backendProxyTarget,
           changeOrigin: true,
         },
       },
