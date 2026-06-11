@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "serve:staging": "vite preview --host 127.0.0.1 --port 5173",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

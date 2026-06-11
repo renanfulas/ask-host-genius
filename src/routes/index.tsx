@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
   component: ChatPage,
 });
 
-function ChatPage() {
+export function ChatPage() {
   const { messages, loading, send, updateFeedback, reset } = useChat();
   const [draft, setDraft] = useState("");
   const empty = messages.length === 0;
