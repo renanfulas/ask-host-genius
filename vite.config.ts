@@ -15,6 +15,9 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    preview: {
+      allowedHosts: ["chat.ordens.com.br"],
+    },
     server: {
       proxy: {
         "/web": {
