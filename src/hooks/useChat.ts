@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { ChatApiError, postChat, type ChatResponse } from "@/lib/chat-api";
+import { ValidationError } from "@/lib/validation";
 
 export type UserMsg = { role: "user"; id: string; text: string };
 export type AgentMsg = {
@@ -17,7 +18,7 @@ export type AgentMsg = {
 export type ErrorMsg = {
   role: "error";
   id: string;
-  kind: "network" | "rate_limit" | "server";
+  kind: "network" | "rate_limit" | "server" | "validation";
   text: string;
 };
 export type Msg = UserMsg | AgentMsg | ErrorMsg;
@@ -48,8 +49,9 @@ export function useChat() {
 
   const send = useCallback(
     async (text: string) => {
+      if (loading) return;
       const trimmed = text.trim();
-      if (!trimmed || loading) return;
+      if (!trimmed) return;
 
       setMessages((m) => [...m, { role: "user", id: uid(), text: trimmed }]);
       setLoading(true);
@@ -57,14 +59,24 @@ export function useChat() {
         const r = await postChat(trimmed);
         setMessages((m) => [...m, fromResponse(r)]);
       } catch (e) {
+        if (e instanceof ValidationError) {
+          setMessages((m) => [
+            ...m,
+            { role: "error", id: uid(), kind: "validation", text: e.message },
+          ]);
+          return;
+        }
         const err = e instanceof ChatApiError ? e : new ChatApiError("network", "Erro");
-        const text =
+        const message =
           err.kind === "rate_limit"
             ? "Muitas perguntas em pouco tempo. Aguarde alguns segundos e tente novamente."
             : err.kind === "network"
               ? "Não consegui responder agora. Verifique sua conexão e tente novamente."
               : "Não consegui responder agora. Tente novamente em instantes.";
-        setMessages((m) => [...m, { role: "error", id: uid(), kind: err.kind, text }]);
+        setMessages((m) => [
+          ...m,
+          { role: "error", id: uid(), kind: err.kind as ErrorMsg["kind"], text: message },
+        ]);
       } finally {
         setLoading(false);
       }

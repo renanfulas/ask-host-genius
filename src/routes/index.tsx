@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/chat/Sidebar";
 import { EmptyState } from "@/components/chat/EmptyState";
 import { MessageList } from "@/components/chat/MessageList";
 import { Composer } from "@/components/chat/Composer";
+import { ThemeToggle } from "@/components/brand/ThemeToggle";
 import { useChat } from "@/hooks/useChat";
 
 export const Route = createFileRoute("/")({
@@ -45,9 +46,12 @@ export function ChatPage() {
                 Chat de suporte
               </span>
             </div>
-            <span className="rounded-full bg-[oklch(0.86_0.17_90)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[oklch(0.22_0.06_258)]">
-              Staging V0
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="rounded-full bg-[oklch(0.86_0.17_90)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[oklch(0.20_0.06_258)]">
+                Staging V0
+              </span>
+              <ThemeToggle />
+            </div>
           </header>
 
           {empty ? (
