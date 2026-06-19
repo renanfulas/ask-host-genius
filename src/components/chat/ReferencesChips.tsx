@@ -12,7 +12,7 @@ export function ReferencesChips({ refs }: { refs: string[] }) {
         <span
           key={r}
           title={r}
-          className="inline-flex items-center rounded-full border border-border bg-accent/35 px-2.5 py-1 font-mono text-[11px] text-foreground/80"
+          className="inline-flex items-center rounded-full border border-primary/20 bg-primary/[0.07] px-2.5 py-1 font-mono text-[11px] text-primary"
         >
           {displayRef(r)}
         </span>

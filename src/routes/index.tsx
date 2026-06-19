@@ -38,12 +38,14 @@ export function ChatPage() {
         <AppSidebar onNewChat={reset} />
 
         <div className="flex min-h-screen flex-1 flex-col">
-          <header className="flex h-12 items-center justify-between border-b border-border/60 bg-background/80 px-3 backdrop-blur">
+          <header className="flex h-12 items-center justify-between border-b border-border bg-background/80 px-3 backdrop-blur">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-              <span className="font-serif text-sm text-muted-foreground">Chat de suporte</span>
+              <span className="font-display text-sm font-medium text-foreground">
+                Chat de suporte
+              </span>
             </div>
-            <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
+            <span className="rounded-full bg-[oklch(0.86_0.17_90)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[oklch(0.22_0.06_258)]">
               Staging V0
             </span>
           </header>
