@@ -18,9 +18,9 @@ export function EscalationCard({ reasons }: { reasons: string[] }) {
   const visibleReasons = reasons.map(labelReason).slice(0, 3);
 
   return (
-    <div className="mt-3 rounded-2xl border border-primary/25 bg-primary/[0.07] p-3.5">
+    <div className="mt-3 rounded-2xl border border-[oklch(0.86_0.17_90)]/55 bg-[oklch(0.86_0.17_90)]/12 p-3.5">
       <div className="flex items-start gap-3">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.86_0.17_90)] text-[oklch(0.22_0.06_258)]">
           <LifeBuoy className="h-4 w-4" />
         </div>
         <div className="space-y-1.5">

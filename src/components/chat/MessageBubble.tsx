@@ -1,9 +1,10 @@
-import { AlertCircle, Sparkles } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import type { Msg, AgentMsg } from "@/hooks/useChat";
 import { EscalationCard } from "./EscalationCard";
 import { ReferencesChips } from "./ReferencesChips";
 import { SupportCode } from "./SupportCode";
 import { FeedbackBar } from "./FeedbackBar";
+import { LogoMark } from "@/components/brand/Logo";
 
 type Props = {
   msg: Msg;
@@ -14,7 +15,7 @@ export function MessageBubble({ msg, onFeedback }: Props) {
   if (msg.role === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-tr-md border border-primary/15 bg-primary/[0.12] px-4 py-3 text-sm leading-relaxed text-foreground shadow-[0_16px_50px_-42px_rgba(0,0,0,0.9)]">
+        <div className="max-w-[85%] rounded-2xl rounded-tr-md bg-primary px-4 py-3 text-sm leading-relaxed text-primary-foreground shadow-sm">
           <p className="whitespace-pre-wrap">{msg.text}</p>
         </div>
       </div>
@@ -27,7 +28,7 @@ export function MessageBubble({ msg, onFeedback }: Props) {
         <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-destructive/30 bg-destructive/10 text-destructive">
           <AlertCircle className="h-4 w-4" />
         </div>
-        <div className="rounded-2xl border border-destructive/15 bg-destructive/5 px-4 py-3 text-sm text-foreground/85">
+        <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-foreground">
           {msg.text}
         </div>
       </div>
@@ -36,15 +37,9 @@ export function MessageBubble({ msg, onFeedback }: Props) {
 
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
-        <Sparkles className="h-4 w-4" />
-      </div>
+      <LogoMark className="mt-0.5 h-8 w-8 shrink-0" />
       <div className="min-w-0 flex-1">
-        <div className="rounded-2xl rounded-tl-md border border-border/55 bg-card/35 px-4 py-3">
-          <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/95">
-            {msg.answer}
-          </p>
-        </div>
+        <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">{msg.answer}</p>
 
         {msg.escalated && <EscalationCard reasons={msg.handoffReasons} />}
         <ReferencesChips refs={msg.references} />
