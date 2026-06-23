@@ -14,7 +14,7 @@ export const FEEDBACK_COMMENT_MAX = 500;
 
 export const chatMessageSchema = z
   .string()
-  .transform(sanitizeUserText)
+  .transform((v) => sanitizeUserText(v).trim())
   .pipe(
     z
       .string()
