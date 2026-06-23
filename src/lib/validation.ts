@@ -6,7 +6,7 @@ const CONTROL_RE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;
 const INVISIBLE_RE = /[\u200B-\u200F\u2028-\u202F\u2060-\u206F\uFEFF]/g;
 
 export function sanitizeUserText(raw: string): string {
-  return raw.replace(CONTROL_RE, "").replace(INVISIBLE_RE, "").trim();
+  return raw.replace(CONTROL_RE, "").replace(INVISIBLE_RE, "");
 }
 
 export const CHAT_MAX_LEN = 2000;
