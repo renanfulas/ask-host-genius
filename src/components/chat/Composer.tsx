@@ -30,7 +30,7 @@ export function Composer({ onSend, disabled, value, onValueChange }: Props) {
   }, [text]);
 
   function submit() {
-    const v = sanitizeUserText(text);
+    const v = sanitizeUserText(text).trim();
     if (!v || disabled) return;
     onSend(v);
     setText("");
