@@ -9,9 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as ChatUiRouteImport } from './routes/chat-ui'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeamIndexRouteImport } from './routes/team/index'
+import { Route as TeamMetricsRouteImport } from './routes/team/metrics'
+import { Route as TeamCasesCaseIdRouteImport } from './routes/team/cases/$caseId'
 
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChatUiRoute = ChatUiRouteImport.update({
   id: '/chat-ui',
   path: '/chat-ui',
@@ -22,35 +31,82 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeamIndexRoute = TeamIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TeamRoute,
+} as any)
+const TeamMetricsRoute = TeamMetricsRouteImport.update({
+  id: '/metrics',
+  path: '/metrics',
+  getParentRoute: () => TeamRoute,
+} as any)
+const TeamCasesCaseIdRoute = TeamCasesCaseIdRouteImport.update({
+  id: '/cases/$caseId',
+  path: '/cases/$caseId',
+  getParentRoute: () => TeamRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chat-ui': typeof ChatUiRoute
+  '/team': typeof TeamRouteWithChildren
+  '/team/metrics': typeof TeamMetricsRoute
+  '/team/': typeof TeamIndexRoute
+  '/team/cases/$caseId': typeof TeamCasesCaseIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chat-ui': typeof ChatUiRoute
+  '/team/metrics': typeof TeamMetricsRoute
+  '/team': typeof TeamIndexRoute
+  '/team/cases/$caseId': typeof TeamCasesCaseIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/chat-ui': typeof ChatUiRoute
+  '/team': typeof TeamRouteWithChildren
+  '/team/metrics': typeof TeamMetricsRoute
+  '/team/': typeof TeamIndexRoute
+  '/team/cases/$caseId': typeof TeamCasesCaseIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat-ui'
+  fullPaths:
+    | '/'
+    | '/chat-ui'
+    | '/team'
+    | '/team/metrics'
+    | '/team/'
+    | '/team/cases/$caseId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat-ui'
-  id: '__root__' | '/' | '/chat-ui'
+  to: '/' | '/chat-ui' | '/team/metrics' | '/team' | '/team/cases/$caseId'
+  id:
+    | '__root__'
+    | '/'
+    | '/chat-ui'
+    | '/team'
+    | '/team/metrics'
+    | '/team/'
+    | '/team/cases/$caseId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChatUiRoute: typeof ChatUiRoute
+  TeamRoute: typeof TeamRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chat-ui': {
       id: '/chat-ui'
       path: '/chat-ui'
@@ -65,13 +121,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/team/': {
+      id: '/team/'
+      path: '/'
+      fullPath: '/team/'
+      preLoaderRoute: typeof TeamIndexRouteImport
+      parentRoute: typeof TeamRoute
+    }
+    '/team/metrics': {
+      id: '/team/metrics'
+      path: '/metrics'
+      fullPath: '/team/metrics'
+      preLoaderRoute: typeof TeamMetricsRouteImport
+      parentRoute: typeof TeamRoute
+    }
+    '/team/cases/$caseId': {
+      id: '/team/cases/$caseId'
+      path: '/cases/$caseId'
+      fullPath: '/team/cases/$caseId'
+      preLoaderRoute: typeof TeamCasesCaseIdRouteImport
+      parentRoute: typeof TeamRoute
+    }
   }
 }
+
+interface TeamRouteChildren {
+  TeamMetricsRoute: typeof TeamMetricsRoute
+  TeamIndexRoute: typeof TeamIndexRoute
+  TeamCasesCaseIdRoute: typeof TeamCasesCaseIdRoute
+}
+
+const TeamRouteChildren: TeamRouteChildren = {
+  TeamMetricsRoute: TeamMetricsRoute,
+  TeamIndexRoute: TeamIndexRoute,
+  TeamCasesCaseIdRoute: TeamCasesCaseIdRoute,
+}
+
+const TeamRouteWithChildren = TeamRoute._addFileChildren(TeamRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChatUiRoute: ChatUiRoute,
+  TeamRoute: TeamRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
